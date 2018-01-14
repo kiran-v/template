@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Registration</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7; IE=EmulateIE9">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="style.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="demo.css" media="all" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+   <script type="text/javascript">
+   
+    $(document).on('click', '#filedrag', function(event) { 
+    event.preventDefault(); 
+    $("#fileselect").click(); 
+});
+
+      function fileSelected() {
+ 
+        var count = document.getElementById('fileselect').files.length;
+ 
+              document.getElementById('details').innerHTML = "";
+ 
+              for (var index = 0; index < count; index ++)
+ 
+              {
+ 
+                     var file = document.getElementById('fileselect').files[index];
+ 
+                     var fileSize = 0;
+ 
+                     if (file.size > 1024 * 1024)
+ 
+                            fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+ 
+                     else
+ 
+                            fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+ 
+                     document.getElementById('details').innerHTML += 'Name: ' + file.name + '<br>Size: ' + fileSize + '<br>Type: ' + file.type;
+ 
+                     document.getElementById('details').innerHTML += '<p>';
+ 
+              }
+ 
+      }
+ 
+      function uploadFile() {
+ 
+        var fd = new FormData();
+ 
+              var count = document.getElementById('fileselect').files.length;
+ 
+              for (var index = 0; index < count; index ++)
+ 
+              {
+ 
+                     var file = document.getElementById('fileselect').files[index];
+ 
+                     fd.append('myFile', file);
+ 
+              }
+ 
+        var xhr = new XMLHttpRequest();
+ 
+        xhr.upload.addEventListener("progress", uploadProgress, false);
+ 
+        xhr.addEventListener("load", uploadComplete, false);
+ 
+        xhr.addEventListener("error", uploadFailed, false);
+ 
+        xhr.addEventListener("abort", uploadCanceled, false);
+ 
+        xhr.open("POST", "savetofile.php");
+ 
+        xhr.send(fd);
+ 
+      }
+ 
+      function uploadProgress(evt) {
+ 
+        if (evt.lengthComputable) {
+ 
+          var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+ 
+          document.getElementById('progress').innerHTML = percentComplete.toString() + '%';
+ 
+        }
+ 
+        else {
+ 
+          document.getElementById('progress').innerHTML = 'unable to compute';
+ 
+        }
+ 
+      }
+ 
+      function uploadComplete(evt) {
+ 
+        /* This event is raised when the server send back a response */
+ 
+        alert(evt.target.responseText);
+ 
+      }
+ 
+      function uploadFailed(evt) {
+ 
+        alert("There was an error attempting to upload the file.");
+ 
+      }
+ 
+      function uploadCanceled(evt) {
+ 
+        alert("The upload has been canceled by the user or the browser dropped the connection.");
+ 
+      }
+</script>
+
+    <style type="text/css">
+	#imgup {
+    display: none;
+}
+
+#filedrag
+{
+	width: 414px;
+	display: block;
+	font-weight: bold;
+	text-align: center;
+	padding: 1em 0;
+	margin: 1em 0;
+	color: #555;
+	border: 2px dashed #555;
+	border-radius: 7px;
+	cursor: default;
+}
+
+#filedrag.hover
+{
+	color: #f00;
+	border-color: #f00;
+	border-style: solid;
+	box-shadow: inset 0 3px 4px #888;
+}
+
+#messages
+{
+	width: 400px;
+	padding: 0 10px;
+	margin: 1em 0;
+}
+
+    </style>
+</head>
+<body>
+<div class="container">
+			<!-- freshdesignweb top bar -->
+            <div class="freshdesignweb-top">
+                <a href="#" target="_blank">Home</a>
+                
+                <div class="clr"></div>
+            </div><!--/ freshdesignweb top bar -->
+			<header>
+				
+            </header>       
+      <div  class="form">
+    		<form id="contactform" action="" enctype="multipart/form-data"> 
+    			<p class="contact"><label for="name">Name</label></p> 
+    			<input id="name" name="name" placeholder="First and last name" required="" tabindex="1" type="text"> 
+    			 
+    			<p class="contact"><label for="email">Email</label></p> 
+    			<input id="email" name="email" placeholder="example@domain.com" required="" type="email"> 
+                
+                <p class="contact"><label for="username">Create a username</label></p> 
+    			<input id="username" name="username" placeholder="username" required="" tabindex="2" type="text"> 
+    			 
+                <p class="contact"><label for="password">Create a password</label></p> 
+    			<input type="password" id="password" name="password" required=""> 
+               
+        
+               
+  
+            <select class="select-style gender" name="gender">
+            <option value="select">i am..</option>
+            <option value="m">Male</option>
+            <option value="f">Female</option>
+            <option value="others">Other</option>
+            </select><br><br>
+            
+            <p class="contact"><label for="phone">Mobile phone</label></p> 
+            
+            <input id="phone" name="phone" placeholder="phone number" required="" type="text"> <br>
+            
+            
+            
+            <div>
+  <div id="imgup">
+	<label for="fileselect">Files to upload:</label>
+	<input type="file" id="fileselect" name="fileselect" onchange="fileSelected();" accept="image/*" capture="camera" />
+    </div>
+	<div id="filedrag">Click here or drop files here</div> 
+</div>
+ <script src="filedrag.js" type="application/javascript"></script>
+<div id="messages"></div>
+            
+            
+            
+            
+           
+            <input class="buttom" name="submit" id="submit" tabindex="5" value="Submit" type="submit"> 	 
+   </form> 
+</div>      
+</div>
+</body>
+</html>
+
+
+
+

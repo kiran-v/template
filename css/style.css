@@ -1,0 +1,27 @@
+body{
+	background-color:#c7c6c6 !important;
+}
+.sideoption .form-control {
+    margin-bottom: 5px;
+}
+.save {
+    width: 100%;
+    margin-top: 13px;
+}
+.alert-danger{
+	display:none ;
+}
+a {
+    color: #fff !important;
+    text-decoration: none !important;
+}
+a:hover{
+    color: #fff !important;
+    text-decoration: none !important;
+}
+.create{
+	margin-bottom: 10px;
+}
+.btn{
+	margin-right: 10px;
+}
